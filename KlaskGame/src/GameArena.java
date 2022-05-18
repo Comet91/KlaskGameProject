@@ -281,6 +281,12 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 						graphics.setColor(this.getColourFromString(t.getColour()));
 						graphics.drawString(t.getText(),(float)t.getXPosition(), (float)t.getYPosition());
 					}
+					if (o instanceof Goal)
+					{
+						Goal g = (Goal) o;
+						graphics.setColor(this.getColourFromString(g.getColour()));
+						graphics.fillOval((int)(g.getXPosition() - g.getSize()/2), (int)(g.getYPosition() - g.getSize()/2), (int)g.getSize(), (int)g.getSize());
+					}
 				}
 			}
 
@@ -356,6 +362,9 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 
 					if (obj instanceof Text)
 						l = ((Text)obj).getLayer();
+					
+					if (obj instanceof Goal)
+						l = ((Goal)obj).getLayer();
 
 					if (layer < l)
 					{
@@ -427,6 +436,17 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	public void addText(Text t)
 	{
 		this.addThing(t, t.getLayer());
+	}
+	
+	/**
+	 * Adds a given Goal object to the GameArena.
+	 * Once a Goal object is added, it will automatically appear on the window.
+	 *
+	 * @param g the text object to add to the GameArena.
+	 */
+	public void addGoal(Goal g)
+	{
+		this.addThing(g, g.getLayer());
 	}
 
 
