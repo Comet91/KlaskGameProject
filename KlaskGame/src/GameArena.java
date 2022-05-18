@@ -13,6 +13,7 @@ import java.lang.reflect.*;
  */
 public class GameArena extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener
 {
+	
 	// Size of playarea
 	private JFrame frame;
 	private int arenaWidth;
@@ -45,6 +46,9 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private Map<RenderingHints.Key, Object> renderingHints;
 	private boolean rendered = false;
 	private Image backgroundImage = null;
+	private Player player1 = KlaskGame.player1;
+	private Player player2 = KlaskGame.player2;
+	private GameArena arena = KlaskGame.arena;
 
 	/**
 	 * Create a view of a GameArena.
@@ -287,6 +291,19 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 						graphics.setColor(this.getColourFromString(g.getColour()));
 						graphics.fillOval((int)(g.getXPosition() - g.getSize()/2), (int)(g.getYPosition() - g.getSize()/2), (int)g.getSize(), (int)g.getSize());
 					}
+					if (o instanceof Magnets)
+					{
+						Magnets m = (Magnets) o;
+						graphics.setColor(this.getColourFromString(m.getColour()));
+						graphics.fillOval((int)(m.getXPosition() - m.getSize()/2), (int)(m.getYPosition() - m.getSize()/2), (int)m.getSize(), (int)m.getSize());
+					}
+					if (o instanceof Player)
+					{
+						Player p = (Player) o;
+						graphics.setColor(this.getColourFromString(p.getColour()));
+						graphics.fillOval((int)(p.getXPosition() - p.getSize()/2), (int)(p.getYPosition() - p.getSize()/2), (int)p.getSize(), (int)p.getSize());
+						graphics.fillRect((int)p.getXPPosition(), (int)p.getYPPosition(), (int)p.getWidth(), (int)p.getHeight());
+					}
 				}
 			}
 
@@ -365,6 +382,12 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 					
 					if (obj instanceof Goal)
 						l = ((Goal)obj).getLayer();
+					
+					if (obj instanceof Magnets)
+						l = ((Magnets)obj).getLayer();
+					
+					if (obj instanceof Player)
+						l = ((Player)obj).getLayer();
 
 					if (layer < l)
 					{
@@ -447,6 +470,28 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	public void addGoal(Goal g)
 	{
 		this.addThing(g, g.getLayer());
+	}
+	
+	/**
+	 * Adds a given Magnets object to the GameArena.
+	 * Once a Magnets object is added, it will automatically appear on the window.
+	 *
+	 * @param m the text object to add to the GameArena.
+	 */
+	public void addMagnet(Magnets m)
+	{
+		this.addThing(m, m.getLayer());
+	}
+	
+	/**
+	 * Adds a given Player object to the GameArena.
+	 * Once a Player object is added, it will automatically appear on the window.
+	 *
+	 * @param p the text object to add to the GameArena.
+	 */
+	public void addPlayer(Player p)
+	{
+		this.addThing(p, p.getLayer());
 	}
 
 
@@ -544,6 +589,30 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
  	public void keyPressed(KeyEvent e)
 	{
 		keyAction(e,true);
+		
+		if (e.getKeyCode() == KeyEvent.VK_W) 
+		{
+			System.out.print("You pressed UP! ");
+			if (player1 != null)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player1.move(0, 1);
+				if (frame == null)
+				{
+					if (frame != null)
+						frame.revalidate();
+						frame.repaint();
+				}
+				/*
+				if (arena != null)
+				{
+					System.out.print("Not Null");
+					arena.revalidate();
+					arena.repaint();
+				}
+				*/
+			}
+		}
 	}
 
 	public void keyAction(KeyEvent e,boolean yn)
