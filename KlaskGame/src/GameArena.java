@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.Timer;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -49,7 +51,9 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private Player player1 = KlaskGame.player1;
 	private Player player2 = KlaskGame.player2;
 	private GameArena arena = KlaskGame.arena;
-
+	private Ball b = KlaskGame.b;
+	public static Rebound reb;
+	
 	/**
 	 * Create a view of a GameArena.
 	 *
@@ -592,27 +596,125 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		
 		if (e.getKeyCode() == KeyEvent.VK_W) 
 		{
+			if (player1 != null && player1.getXPosition() > 817 && player1.getXPosition() < 1534 && player1.getYPosition() > 78 && player1.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player1.move(0, -20);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player1.move(0, 21);
+			}
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_D)
+		{
+			if (player1 != null && player1.getXPosition() > 817 && player1.getXPosition() < 1534 && player1.getYPosition() > 78 && player1.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player1.move(20, 0);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player1.move(-21, 0);
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_S)
+		{
+			if (player1 != null && player1.getXPosition() > 817 && player1.getXPosition() < 1534 && player1.getYPosition() > 78 && player1.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player1.move(0, 20);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player1.move(0, -21);
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_A)
+		{
+			if (player1 != null && player1.getXPosition() > 817 && player1.getXPosition() < 1534 && player1.getYPosition() > 78 && player1.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player1.move(-20, 0);
+				if (b != null)
+				{
+					b.move(0, 10);
+					System.out.print("\nColliding!!!");
+					reb = new Rebound(20, 1, 20, 1, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+					System.out.print("\nValue of rebound: " + reb);
+				}
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player1.move(21, 0);
+			}
+		} else if (e.getKeyCode() == KeyEvent.VK_UP)
+		{
+			if (player2 != null && player2.getXPosition() < 781 && player2.getXPosition() > 68 && player2.getYPosition() > 78 && player2.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player2.move(0, -20);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player2.move(0, 21);
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+		{
+			if (player2 != null && player2.getXPosition() < 781 && player2.getXPosition() > 68 && player2.getYPosition() > 78 && player2.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player2.move(20, 0);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player2.move(-21, 0);
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
+		{
+			if (player2 != null && player2.getXPosition() < 781 && player2.getXPosition() > 68 && player2.getYPosition() > 78 && player2.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player2.move(0, 20);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player2.move(0, -21);
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT)
+		{
+			if (player2 != null && player2.getXPosition() < 781 && player2.getXPosition() > 68 && player2.getYPosition() > 78 && player2.getYPosition() < 826)
+			{
+				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				player2.move(-20, 0);
+			}
+			else 
+			{
+				System.out.print("Out of bounds.");
+				player2.move(21, 0);
+			}
+		}
+		/*
+		else if (e.getKeyCode() == KeyEvent.VK_W) 
+		{
 			System.out.print("You pressed UP! ");
 			if (player1 != null)
 			{
 				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
-				player1.move(0, 1);
-				if (frame == null)
-				{
-					if (frame != null)
-						frame.revalidate();
-						frame.repaint();
-				}
-				/*
-				if (arena != null)
-				{
-					System.out.print("Not Null");
-					arena.revalidate();
-					arena.repaint();
-				}
-				*/
+				player1.move(0, -5);
 			}
-		}
+		} 
+		*/
 	}
 
 	public void keyAction(KeyEvent e,boolean yn)

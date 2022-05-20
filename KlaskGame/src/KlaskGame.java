@@ -7,11 +7,12 @@ import java.util.*;
 import java.lang.Class;
 import java.lang.reflect.*;
 
-public class KlaskGame
+public class KlaskGame 
 {
 	public static Player player1 = new Player(1325, 444, 1320, 391, 33, 8 , 38, "BLACK", 4);
 	public static Player player2 = new Player(257, 444, 253, 391, 33, 8 , 38, "BLACK", 4);
 	public static GameArena arena = new GameArena(1600, 900, true);
+	public static Ball b = new Ball(1200, 500, 20, "YELLOW", 4);
 	
 	public static void main(String[] args) 
 	{
@@ -37,12 +38,11 @@ public class KlaskGame
 		Goal goal2 = new Goal(1471, 451, 80, "LIGHTGREY", 3);
 		
 		// Moveable Objects
-		Ball b = new Ball(600, 500, 20, "YELLOW", 4);
 		Magnets magnet1 = new Magnets(795, 451, 15, "WHITE", 4);
 		Magnets magnet2 = new Magnets(795, 219, 15, "WHITE", 4);
 		Magnets magnet3 = new Magnets(795, 684, 15, "WHITE", 4);
-		Player player1 = new Player(1325, 444, 1320, 391, 33, 8 , 38, "BLACK", 4);
-		Player player2 = new Player(257, 444, 253, 391, 33, 8 , 38, "BLACK", 4);
+		//Player player1 = new Player(1325, 444, 1320, 391, 33, 8 , 38, "BLACK", 4);
+		//Player player2 = new Player(257, 444, 253, 391, 33, 8 , 38, "BLACK", 4);
 		
 		// Adding to the arena
 		arena.addRectangle(rec);
@@ -66,5 +66,64 @@ public class KlaskGame
 		arena.addBall(b);
 		arena.addPlayer(player1);
 		arena.addPlayer(player2);
+		
 	}
+	
+	/*
+	public void keyPressed(KeyEvent e)
+	{
+		if (e.getKeyCode() == KeyEvent.VK_W) 
+		{
+			if (player1 != null)
+			{
+				arena.validate();
+				arena.repaint();
+			}
+		} 
+		else if (e.getKeyCode() == KeyEvent.VK_D)
+		{
+			if (player1 != null)
+			{
+				arena.revalidate();
+				arena.repaint();
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_S)
+		{
+			if (player1 != null)
+			{
+				//arena.revalidate();
+				//arena.repaint();
+				
+				if (player1.collidesB(b))
+				{
+					System.out.print("\nColliding!!!");
+					reb = new Rebound(20, 1, 20, 1, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+					System.out.print("\nValue of rebound: " + reb);
+				}
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_A)
+		{
+			if (player1 != null)
+			{
+				arena.revalidate();
+				arena.repaint();
+			}
+			
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 }

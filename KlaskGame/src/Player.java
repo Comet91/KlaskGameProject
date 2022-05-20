@@ -19,7 +19,7 @@ public class Player
 	private double height;				// The width of this Player
 	private int layer;					// The layer of this Player is on.
 	private String colour;				// The colour of this Player
-
+	
 										// Permissable colours are:
 										// BLACK, BLUE, CYAN, DARKGREY, GREY,
 										// GREEN, LIGHTGREY, MAGENTA, ORANGE,
@@ -253,12 +253,26 @@ public class Player
 	 * @param b the Player to test for collision
 	 * @return true of this Player is overlapping the Player b, false otherwise.
 	 */
-	public boolean collides(Player p)
+	public boolean collidesP(Player p)
 	{
 		double dx = p.xPosition - xPosition;
 		double dy = p.yPosition - yPosition;
 		double distance = Math.sqrt(dx*dx+dy*dy);
 
 		return distance < size/2 + p.size/2;
+	}
+
+	public boolean collidesB(Ball b) 
+	{
+		double distance = 0;
+		
+		if (b != null)
+		{
+			double dx = b.getXPosition() - xPosition;
+			double dy = b.getYPosition() - yPosition;
+			distance = Math.sqrt(dx*dx+dy*dy);
+		}
+
+		return distance < size/2 + b.getSize()/2;
 	}
 }
