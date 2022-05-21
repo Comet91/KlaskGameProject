@@ -58,6 +58,11 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private boolean hitPlayer1 = false;
 	private boolean hitPlayer2 = false;
 	private int lastHit = 0;
+	private boolean hitTopWall = false;
+	private boolean hitBottomWall = false;
+	private boolean hitRightWall = false;
+	private boolean hitLeftWall = false;
+	private boolean reversed = false;
 	private int vx;
 	private int vy;
 	Timer timer = new Timer(100 , this);
@@ -1025,7 +1030,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	{
 		b = KlaskGame.b;
 		
-		System.out.print("\n Boolean Values hitPlayer: " + hitPlayer1 + " | hitWall: " + hitWall + "\n");
+		//System.out.print("\n Boolean Values hitPlayer: " + hitPlayer1 + " | hitWall: " + hitWall + "\n");
 		
 		if (b.getYPosition() < 61 || b.getYPosition() > 840 || b.getXPosition() < 51 || b.getXPosition() > 1550 )
 		{
@@ -1033,29 +1038,89 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			hitPlayer2 = false;
 			hitWall = true;
 		}
+		if (b.getYPosition() < 61 || b.getYPosition() > 840)
+		{
+			hitRightWall = false;
+			hitLeftWall = false;
+			hitBottomWall = true;
+			hitTopWall = true;
+			reversed = false;
+		}
+		if (b.getXPosition() < 51 || b.getXPosition() > 1550)
+		{
+			hitBottomWall = false;
+			hitTopWall = false;
+			hitRightWall = true;
+			hitLeftWall = true;
+			reversed = false;
+		}
 		if (hitPlayer1 == true)
 		{
-			System.out.print("\nX Speed: " + reb1[2] + " | Y Speed: " + reb1[3] + "\n");
 			b.move(reb1[2], reb1[3]);
 		}
 		if (hitPlayer2 == true)
 		{
-			System.out.print("\nX Speed: " + reb1[2] + " | Y Speed: " + reb1[3] + "\n");
 			b.move(reb2[2], reb2[3]);
 		}
-		if (hitWall == true && lastHit == 1)
+		if (hitWall == true && lastHit == 1 && (hitBottomWall == true || hitTopWall == true))
 		{
-			double x = reb1[2] * -1;
-			double y = reb1[3] * -1;
-			b.move(x, y);
-			System.out.print("\nX Speed: " + x + " | Y Speed: " + y + "\n");
+			if (reversed == false)
+			{
+				reb1[3] = -reb1[3];
+				b.move(reb1[2], reb1[3]);
+				reversed = true;
+			}
+			else 
+			{
+				b.move(reb1[2], reb1[3]);
+			}
+			//System.out.print("\n[1] X: " + reb1[2] + " | y " + reb1[3] + "\n")
+			//System.out.print("\n[2] X: " + reb1[2] + " | y " + y + "\n");
 		}
-		if (hitWall == true && lastHit == 2)
+		if (hitWall == true && lastHit == 2 && (hitBottomWall == true || hitTopWall == true))
 		{
-			double x = reb2[2] * -1;
-			double y = reb2[3] * -1;
-			b.move(x, y);
-			System.out.print("\nX Speed: " + x + " | Y Speed: " + y + "\n");
+			if (reversed == false)
+			{
+				reb2[3] = -reb2[3];
+				b.move(reb2[2], reb2[3]);
+				reversed = true;
+			}
+			else 
+			{
+				b.move(reb2[2], reb2[3]);
+			}
+			//System.out.print("\n[1] X: " + reb2[2] + " | y " + reb2[3] + "\n");
+			//System.out.print("\n[2] X: " + reb2[2] + " | y " + y + "\n");
+		}
+		if (hitWall == true && lastHit == 1 && (hitRightWall == true || hitLeftWall == true))
+		{
+			if (reversed == false)
+			{
+				reb1[2] = -reb1[2];
+				b.move(reb1[2], reb1[3]);
+				reversed = true;
+			}
+			else 
+			{
+				b.move(reb1[2], reb1[3]);
+			}
+			//System.out.print("\n[1] X: " + reb1[2] + " | y " + reb1[3] + "\n");
+			//System.out.print("\n[2] X: " + x + " | y " + reb1[3] + "\n");
+		}
+		if (hitWall == true && lastHit == 2 && (hitRightWall == true || hitLeftWall == true))
+		{
+			if (reversed == false)
+			{
+				reb2[2] = -reb2[2];
+				b.move(reb2[2], reb2[3]);
+				reversed = true;
+			}
+			else
+			{
+				b.move(reb2[2], reb2[3]);
+			}
+			//System.out.print("\n[1] X: " + reb2[2] + " | y " + reb2[3] + "\n");
+			//System.out.print("\n[2] X: " + x + " | y " + reb2[3] + "\n");
 		}
 	}
 }
