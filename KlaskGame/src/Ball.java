@@ -170,4 +170,34 @@ public class Ball
 
 		return distance < size/2 + b.size/2;
 	}
+	
+	/**
+	 * Determines if this Ball is overlapping the given rectangle.
+	 * 
+	 * @param r the rectangle to test for collision
+	 * @return true of this ball is overlapping the rectangle r, false otherwise.
+	 */
+	public boolean collidesR(Rectangle r)
+	{
+		double dx = r.getXPosition() - xPosition;
+		double dy = r.getYPosition() - yPosition;
+		double distance = Math.sqrt(dx*dx+dy*dy);
+
+		return distance < size/2 + r.getWidth()/2;
+	}
+	
+	/**
+	 * Determines if this Ball is overlapping the given player.
+	 * 
+	 * @param p the player to test for collision
+	 * @return true of this ball is overlapping the player p, false otherwise.
+	 */
+	public boolean collidesP(Player p)
+	{
+		double dx = p.getXPosition() - xPosition;
+		double dy = p.getYPosition() - yPosition;
+		double distance = Math.sqrt(dx*dx+dy*dy);
+
+		return distance < size/2 + p.getSize()/2;
+	}
 }

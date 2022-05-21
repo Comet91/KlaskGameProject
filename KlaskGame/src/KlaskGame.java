@@ -13,17 +13,18 @@ public class KlaskGame
 	public static Player player2 = new Player(257, 444, 253, 391, 33, 8 , 38, "BLACK", 4);
 	public static GameArena arena = new GameArena(1600, 900, true);
 	public static Ball b = new Ball(1200, 500, 20, "YELLOW", 4);
+	public static Rectangle rec = new Rectangle(28, 43, 1544, 826, "LIGHTGREY", 1);
 	
 	public static void main(String[] args) 
 	{
 	   gameStart();
+	   //updateBall();
 	}
 	
 	public static void gameStart()
 	{
 		
 		// Arena Creation
-		Rectangle rec = new Rectangle(28, 43, 1544, 826, "LIGHTGREY", 1);
 		Rectangle rec2 = new Rectangle(52, 63, 1499, 783, "BLUE", 2);
 		Line line1 = new Line(130, 57, 131, 147, 5, "LIGHTGREY", 3);
 		Line line2 = new Line(47, 147, 131, 147, 5, "LIGHTGREY", 3);
@@ -66,7 +67,7 @@ public class KlaskGame
 		arena.addBall(b);
 		arena.addPlayer(player1);
 		arena.addPlayer(player2);
-		
+	
 	}
 	
 	/*

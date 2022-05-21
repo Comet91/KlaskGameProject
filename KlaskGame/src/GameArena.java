@@ -13,7 +13,7 @@ import java.lang.reflect.*;
  * This class provides a simple window in which grahical objects can be drawn.
  * @author Joe Finney
  */
-public class GameArena extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener
+public class GameArena extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener, ActionListener
 {
 	
 	// Size of playarea
@@ -51,8 +51,18 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private Player player1 = KlaskGame.player1;
 	private Player player2 = KlaskGame.player2;
 	private GameArena arena = KlaskGame.arena;
-	private Ball b = KlaskGame.b;
-	public static Rebound reb;
+	private Ball b;
+	public static double[] reb1;
+	public static double[] reb2;
+	private boolean hitWall = false;
+	private boolean hitPlayer1 = false;
+	private boolean hitPlayer2 = false;
+	private int lastHit = 0;
+	private int vx;
+	private int vy;
+	Timer timer = new Timer(100 , this);
+	
+    //Timer tm = new Timer(100, this);
 	
 	/**
 	 * Create a view of a GameArena.
@@ -594,6 +604,10 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	{
 		keyAction(e,true);
 		
+		b = KlaskGame.b;
+		
+		timer.start();
+		
 		if (e.getKeyCode() == KeyEvent.VK_W) 
 		{
 			if (player1 != null && player1.getXPosition() > 817 && player1.getXPosition() < 1534 && player1.getYPosition() > 78 && player1.getYPosition() < 826)
@@ -604,7 +618,20 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(0, 21);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player1.collidesB(b))
+			{
+				reb1 = Rebound.getVelocity(20, 0, 20, 0, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = true;
+				hitPlayer2 = false;
+				lastHit = 1;
 			}
 		} 
 		else if (e.getKeyCode() == KeyEvent.VK_D)
@@ -617,7 +644,20 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(-21, 0);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player1.collidesB(b))
+			{
+				reb1 = Rebound.getVelocity(20, 0, 20, 0, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = true;
+				hitPlayer2 = false;
+				lastHit = 1;
 			}
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_S)
@@ -630,27 +670,46 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(0, -21);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player1.collidesB(b))
+			{
+				reb1 = Rebound.getVelocity(20, 0, 20, 0, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = true;
+				hitPlayer2 = false;
+				lastHit = 1;
 			}
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_A)
 		{
 			if (player1 != null && player1.getXPosition() > 817 && player1.getXPosition() < 1534 && player1.getYPosition() > 78 && player1.getYPosition() < 826)
 			{
-				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
+				System.out.print("\nPlayer 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
 				player1.move(-20, 0);
-				if (b != null)
-				{
-					b.move(0, 10);
-					System.out.print("\nColliding!!!");
-					reb = new Rebound(20, 1, 20, 1, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
-					System.out.print("\nValue of rebound: " + reb);
-				}
 			}
 			else 
 			{
 				System.out.print("Out of bounds.");
 				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player1.collidesB(b))
+			{
+				reb1 = Rebound.getVelocity(20, 0, 20, 0, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = true;
+				hitPlayer2 = false;
+				lastHit = 1;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_UP)
 		{
@@ -662,7 +721,20 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player2.move(0, 21);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player2.collidesB(b))
+			{
+				reb2 = Rebound.getVelocity(20, 0, 20, 0, player2.getXPosition(), b.getXPosition(), player2.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = false;
+				hitPlayer2 = true;
+				lastHit = 2;
 			}
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -675,7 +747,20 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player2.move(-21, 0);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player2.collidesB(b))
+			{
+				reb2 = Rebound.getVelocity(20, 0, 20, 0, player2.getXPosition(), b.getXPosition(), player2.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = false;
+				hitPlayer2 = true;
+				lastHit = 2;
 			}
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
@@ -688,7 +773,20 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player2.move(0, -21);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player2.collidesB(b))
+			{
+				reb2 = Rebound.getVelocity(20, 0, 20, 0, player2.getXPosition(), b.getXPosition(), player2.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = false;
+				hitPlayer2 = true;
+				lastHit = 2;
 			}
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_LEFT)
@@ -701,20 +799,22 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player2.move(21, 0);
+				player1.move(21, 0);
+			}
+			
+			if (b == null)
+			{
+				System.out.print("Ball is null!\n");
+			}
+			if (player1 != null && b != null && player2.collidesB(b))
+			{
+				reb2 = Rebound.getVelocity(20, 0, 20, 0, player2.getXPosition(), b.getXPosition(), player2.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = false;
+				hitPlayer2 = true;
+				lastHit = 2;
 			}
 		}
-		/*
-		else if (e.getKeyCode() == KeyEvent.VK_W) 
-		{
-			System.out.print("You pressed UP! ");
-			if (player1 != null)
-			{
-				System.out.print("Player 1 Position: " + player1.getXPosition() + ", " + player1.getYPosition() + "\n");
-				player1.move(0, -5);
-			}
-		} 
-		*/
 	}
 
 	public void keyAction(KeyEvent e,boolean yn)
@@ -920,4 +1020,42 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		return mouseY;
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		b = KlaskGame.b;
+		
+		System.out.print("\n Boolean Values hitPlayer: " + hitPlayer1 + " | hitWall: " + hitWall + "\n");
+		
+		if (b.getYPosition() < 61 || b.getYPosition() > 840 || b.getXPosition() < 51 || b.getXPosition() > 1550 )
+		{
+			hitPlayer1 = false;
+			hitPlayer2 = false;
+			hitWall = true;
+		}
+		if (hitPlayer1 == true)
+		{
+			System.out.print("\nX Speed: " + reb1[2] + " | Y Speed: " + reb1[3] + "\n");
+			b.move(reb1[2], reb1[3]);
+		}
+		if (hitPlayer2 == true)
+		{
+			System.out.print("\nX Speed: " + reb1[2] + " | Y Speed: " + reb1[3] + "\n");
+			b.move(reb2[2], reb2[3]);
+		}
+		if (hitWall == true && lastHit == 1)
+		{
+			double x = reb1[2] * -1;
+			double y = reb1[3] * -1;
+			b.move(x, y);
+			System.out.print("\nX Speed: " + x + " | Y Speed: " + y + "\n");
+		}
+		if (hitWall == true && lastHit == 2)
+		{
+			double x = reb2[2] * -1;
+			double y = reb2[3] * -1;
+			b.move(x, y);
+			System.out.print("\nX Speed: " + x + " | Y Speed: " + y + "\n");
+		}
+	}
 }

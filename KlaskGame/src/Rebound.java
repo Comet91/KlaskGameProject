@@ -1,35 +1,20 @@
 
 public class Rebound {
 
-	private double xSpeed1;
-	private double XSpeed2;
-	private double ySpeed1;
-	private double ySpeed2;
-	private double yPosition1;
-	private double yPosition2;
-	private double xPosition1;
-	private double xPosition2;
-	
-	
-	public Rebound(double xSpeed1, double xSpeed2, double ySpeed1, double ySpeed2, double xPosition1, double xPosition2, double yPosition1, double yPosition2)
+	public static double[] getVelocity(double xSpeed1, double xSpeed2, double ySpeed1, double ySpeed2, double xPosition1, double xPosition2, double yPosition1, double yPosition2)
 	 {
+		
+		double[] velocities = new double[4];
+		
 	 // The position and speed of each of the two balls in the x and y axis before collision.
 	 // YOU NEED TO FILL THESE VALUES IN AS APPROPRIATE...
-	 this.xSpeed1 = xSpeed1;
-	 this.xSpeed1 = xSpeed2;
-	 this.xSpeed1 = ySpeed1;
-	 this.xSpeed1 = ySpeed2;
-	 this.xSpeed1 = yPosition1;
-	 this.xSpeed1 = yPosition2;
-	 this.xSpeed1 = xPosition1;
-	 this.xSpeed1 = xPosition2;
 	 
 	 // double xPosition1, xPosition2, yPosition1, yPosition2;
 	 // double xSpeed1, xSpeed2, ySpeed1, ySpeed2;
 	 // Calculate initial momentum of the balls... We assume unit mass here.
 	 double p1InitialMomentum = Math.sqrt(xSpeed1 * xSpeed1 + ySpeed1 * ySpeed1);
 	 double p2InitialMomentum = Math.sqrt(xSpeed2 * xSpeed2 + ySpeed2 * ySpeed2);
-	 // calculate motion vectors
+	 // calculate motion vecto
 	 double[] p1Trajectory = {xSpeed1, ySpeed1};
 	 double[] p2Trajectory = {xSpeed2, ySpeed2};
 	 // Calculate Impact Vector
@@ -55,12 +40,19 @@ public class Rebound {
 	 ySpeed1 = p1FinalTrajectory[1] * mag;
 	 xSpeed2 = p2FinalTrajectory[0] * mag;
 	 ySpeed2 = p2FinalTrajectory[1] * mag;
+	 
+	 velocities[0] = xSpeed1;
+	 velocities[1] = ySpeed1;
+	 velocities[2] = xSpeed2;
+	 velocities[3] = ySpeed2;
+	 
+	 return velocities;
 	 }
 	 /**
 	 * Converts a vector into a unit vector.
 	 * Used by the deflect() method to calculate the resultnt direction after a collision.
 	 */
-	 private double[] normalizeVector(double[] vec)
+	 private static double[] normalizeVector(double[] vec)
 	 {
 		 double mag = 0.0;
 		 int dimensions = vec.length;
