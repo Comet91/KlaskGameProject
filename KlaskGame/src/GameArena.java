@@ -1353,26 +1353,18 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	{
 		b = KlaskGame.b;
 		ballFriction = 0.05;
-		
-		System.out.print("\nHit Magnet Bool: " + hitMagnet + "\n");
-		
+
 		if (reb1 != null)
 		{
 			frictionMethod = Friction.addFriction(reb1[2], reb1[3], ballFriction);
 			reb1[2] = frictionMethod[0];
 			reb1[3] = frictionMethod[1];
-			
-			System.out.print("\n[Friction] Value: " + frictionMethod[0] + " | " + frictionMethod[1] + "\n");
-			System.out.print("\n[Rebound] X: " + reb1[2] + " | y " + reb1[3] + "\n");
 		}
 		if (reb2 != null)
 		{
 			frictionMethod = Friction.addFriction(reb2[2], reb2[3], ballFriction);
 			reb2[2] = frictionMethod[0];
 			reb2[3] = frictionMethod[1];
-			
-			System.out.print("\n[Friction] Value: " + frictionMethod[0] + " | " + frictionMethod[1] + "\n");
-			System.out.print("\n[2] X: " + reb2[2] + " | y " + reb2[3] + "\n");
 		}
 		
 		if (b.getYPosition() < 73 || b.getYPosition() > 830 || b.getXPosition() < 63 || b.getXPosition() > 1537 )
