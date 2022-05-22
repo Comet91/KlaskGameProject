@@ -29,7 +29,6 @@ public class KlaskGame
 	
 	public static void gameStart()
 	{
-		
 		// Arena Creation
 		Rectangle rec2 = new Rectangle(52, 63, 1499, 783, "BLUE", 2);
 		Line line1 = new Line(130, 57, 131, 147, 5, "LIGHTGREY", 3);
@@ -42,10 +41,6 @@ public class KlaskGame
 		Line line8 = new Line(1468, 847, 1468, 756, 5, "LIGHTGREY", 3);
 		Line line9 = new Line(795, 57, 795, 847, 1, "LIGHTGREY", 3);
 		Text breaker = new Text("|", 38, 790, 33, "RED", 4);
-		
-		// Moveable Objects
-		//Player player1 = new Player(1325, 444, 1320, 391, 33, 8 , 38, "BLACK", 4);
-		//Player player2 = new Player(257, 444, 253, 391, 33, 8 , 38, "BLACK", 4);
 		
 		// Adding to the arena
 		arena.addRectangle(rec);

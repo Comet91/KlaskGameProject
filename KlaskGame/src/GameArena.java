@@ -63,23 +63,23 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	public static double[] rebM3;
 	public static double[] frictionMethod;
 	private boolean hitWall = false;
-	private boolean hitWallM1 = false;
-	private boolean hitWallM2 = false;
-	private boolean hitWallM3 = false;
+	//private boolean hitWallM1 = false;
+	//private boolean hitWallM2 = false;
+	//private boolean hitWallM3 = false;
 	private boolean hitPlayer1 = false;
 	private boolean hitPlayer2 = false;
 	private boolean hitBottomOrTopWall = false;
 	private boolean hitRightOrLeftWall = false;
-	private boolean hitM1BottomOrTopWall = false;
-	private boolean hitM1RightOrLeftWall = false;
-	private boolean hitM2BottomOrTopWall = false;
-	private boolean hitM2RightOrLeftWall = false;
-	private boolean hitM3BottomOrTopWall = false;
-	private boolean hitM3RightOrLeftWall = false;
+	//private boolean hitM1BottomOrTopWall = false;
+	//private boolean hitM1RightOrLeftWall = false;
+	//private boolean hitM2BottomOrTopWall = false;
+	//private boolean hitM2RightOrLeftWall = false;
+	//private boolean hitM3BottomOrTopWall = false;
+	//private boolean hitM3RightOrLeftWall = false;
 	private boolean reversed = false;
-	private boolean reversedM1 = false;
-	private boolean reversedM2 = false;
-	private boolean reversedM3 = false;
+	//private boolean reversedM1 = false;
+	//private boolean reversedM2 = false;
+	//private boolean reversedM3 = false;
 	private boolean hitMagnet = false;
 	private boolean hitMagnet1 = false;
 	private boolean hitMagnet2 = false;
@@ -1224,20 +1224,17 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			{
 				hitMagnet = false;
 				hitMagnet1 = true;
-				hitWallM1 = false;
 				
 			}
 			if (b.collidesM(m2))
 			{
 				hitMagnet = false;
 				hitMagnet2 = true;
-				hitWallM2 = false;
 			}
 			if (b.collidesM(m3))
 			{
 				hitMagnet = false;
 				hitMagnet3 = true;
-				hitWallM3 = false;
 			}
 			if (lastHit == 1)
 			{
