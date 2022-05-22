@@ -54,6 +54,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private Ball b;
 	public static double[] reb1;
 	public static double[] reb2;
+	public static double[] frictionMethod;
 	private boolean hitWall = false;
 	private boolean hitPlayer1 = false;
 	private boolean hitPlayer2 = false;
@@ -63,8 +64,9 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private boolean hitRightWall = false;
 	private boolean hitLeftWall = false;
 	private boolean reversed = false;
-	private int vx;
-	private int vy;
+	private double ballxVelocity;
+	private double ballyVelocity;
+	private double ballFriction;
 	Timer timer = new Timer(100 , this);
 	
     //Timer tm = new Timer(100, this);
@@ -1030,7 +1032,26 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	{
 		b = KlaskGame.b;
 		
-		//System.out.print("\n Boolean Values hitPlayer: " + hitPlayer1 + " | hitWall: " + hitWall + "\n");
+		ballFriction = 0.05;
+		
+		if (reb1 != null)
+		{
+			frictionMethod = Friction.addFriction(reb1[2], reb1[3], ballFriction);
+			reb1[2] = frictionMethod[0];
+			reb1[3] = frictionMethod[1];
+			
+			System.out.print("\n[Friction] Value: " + frictionMethod[0] + " | " + frictionMethod[1] + "\n");
+			System.out.print("\n[Rebound] X: " + reb1[2] + " | y " + reb1[3] + "\n");
+		}
+		if (reb2 != null)
+		{
+			frictionMethod = Friction.addFriction(reb2[2], reb2[3], ballFriction);
+			reb2[2] = frictionMethod[0];
+			reb2[3] = frictionMethod[1];
+			
+			System.out.print("\n[Friction] Value: " + frictionMethod[0] + " | " + frictionMethod[1] + "\n");
+			System.out.print("\n[2] X: " + reb2[2] + " | y " + reb2[3] + "\n");
+		}
 		
 		if (b.getYPosition() < 61 || b.getYPosition() > 840 || b.getXPosition() < 51 || b.getXPosition() > 1550 )
 		{
@@ -1074,8 +1095,6 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			{
 				b.move(reb1[2], reb1[3]);
 			}
-			//System.out.print("\n[1] X: " + reb1[2] + " | y " + reb1[3] + "\n")
-			//System.out.print("\n[2] X: " + reb1[2] + " | y " + y + "\n");
 		}
 		if (hitWall == true && lastHit == 2 && (hitBottomWall == true || hitTopWall == true))
 		{
@@ -1089,8 +1108,6 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			{
 				b.move(reb2[2], reb2[3]);
 			}
-			//System.out.print("\n[1] X: " + reb2[2] + " | y " + reb2[3] + "\n");
-			//System.out.print("\n[2] X: " + reb2[2] + " | y " + y + "\n");
 		}
 		if (hitWall == true && lastHit == 1 && (hitRightWall == true || hitLeftWall == true))
 		{
@@ -1104,8 +1121,6 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			{
 				b.move(reb1[2], reb1[3]);
 			}
-			//System.out.print("\n[1] X: " + reb1[2] + " | y " + reb1[3] + "\n");
-			//System.out.print("\n[2] X: " + x + " | y " + reb1[3] + "\n");
 		}
 		if (hitWall == true && lastHit == 2 && (hitRightWall == true || hitLeftWall == true))
 		{
@@ -1119,8 +1134,6 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			{
 				b.move(reb2[2], reb2[3]);
 			}
-			//System.out.print("\n[1] X: " + reb2[2] + " | y " + reb2[3] + "\n");
-			//System.out.print("\n[2] X: " + x + " | y " + reb2[3] + "\n");
 		}
 	}
 }
