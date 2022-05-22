@@ -50,24 +50,42 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private Image backgroundImage = null;
 	private Player player1 = KlaskGame.player1;
 	private Player player2 = KlaskGame.player2;
-	private GameArena arena = KlaskGame.arena;
 	private Ball b;
+	private Magnets m1;
+	private Magnets m2;
+	private Magnets m3;
 	public static double[] reb1;
 	public static double[] reb2;
+	public static double[] rebM1;
+	public static double[] rebM2;
+	public static double[] rebM3;
 	public static double[] frictionMethod;
 	private boolean hitWall = false;
+	private boolean hitWallM1 = false;
+	private boolean hitWallM2 = false;
+	private boolean hitWallM3 = false;
 	private boolean hitPlayer1 = false;
 	private boolean hitPlayer2 = false;
-	private int lastHit = 0;
-	private boolean hitTopWall = false;
-	private boolean hitBottomWall = false;
-	private boolean hitRightWall = false;
-	private boolean hitLeftWall = false;
+	private boolean hitBottomOrTopWall = false;
+	private boolean hitRightOrLeftWall = false;
+	private boolean hitM1BottomOrTopWall = false;
+	private boolean hitM1RightOrLeftWall = false;
+	private boolean hitM2BottomOrTopWall = false;
+	private boolean hitM2RightOrLeftWall = false;
+	private boolean hitM3BottomOrTopWall = false;
+	private boolean hitM3RightOrLeftWall = false;
 	private boolean reversed = false;
-	private double ballxVelocity;
-	private double ballyVelocity;
+	private boolean reversedM1 = false;
+	private boolean reversedM2 = false;
+	private boolean reversedM3 = false;
+	private boolean hitMagnet = false;
+	private boolean hitMagnet1 = false;
+	private boolean hitMagnet2 = false;
+	private boolean hitMagnet3 = false;
 	private double ballFriction;
-	Timer timer = new Timer(100 , this);
+	private double magnetFriction;
+	private int lastHit = 0;
+	private Timer timer = new Timer(100 , this);
 	
     //Timer tm = new Timer(100, this);
 	
@@ -1026,13 +1044,316 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	{
 		return mouseY;
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	
+	/**
+	 * Handles magnet collisions and friction.
+	 */
+	public void magnets()
 	{
 		b = KlaskGame.b;
+		m1 = KlaskGame.magnet1;
+		m2 = KlaskGame.magnet2;
+		m3 = KlaskGame.magnet3;
+		magnetFriction = 0.15;
 		
+		if (rebM1 != null)
+		{
+			frictionMethod = Friction.addFriction(rebM1[0], rebM1[1], magnetFriction);
+			rebM1[0] = frictionMethod[0];
+			rebM1[1] = frictionMethod[1];
+		}
+		if (rebM2 != null)
+		{
+			frictionMethod = Friction.addFriction(rebM2[0], rebM2[1], magnetFriction);
+			rebM2[0] = frictionMethod[0];
+			rebM2[1] = frictionMethod[1];
+		}
+		if (rebM2 != null)
+		{
+			frictionMethod = Friction.addFriction(rebM2[0], rebM2[1], magnetFriction);
+			rebM2[0] = frictionMethod[0];
+			rebM2[1] = frictionMethod[1];
+		}
+		
+		/*
+		if ((m1.getYPosition() < 61 || m1.getYPosition() > 840) || (m1.getXPosition() < 51 || m1.getXPosition()> 1550))		
+		{
+			hitWallM1 = true;
+			hitMagnet1 = false;
+			hitMagnet = false;
+		}
+		if ((m2.getYPosition() < 61 || m2.getYPosition() > 840) || (m2.getXPosition() < 51 || m2.getXPosition() > 1550))
+		{
+			hitWallM2 = true;
+			hitMagnet2 = false;
+			hitMagnet = false;
+		}
+		if ((m3.getYPosition() < 61 || m3.getYPosition() > 840) || (m3.getXPosition() < 51 || m3.getXPosition() > 1550))
+		{
+			hitWallM3 = true;
+			hitMagnet3 = false;
+			hitMagnet = false;
+		}
+		if (m1.getYPosition() < 61 || m1.getYPosition() > 840)
+		{
+			hitM1RightOrLeftWall = false;
+			hitM1BottomOrTopWall = true;
+			//reversedM1 = false;
+		}
+		if (m1.getXPosition() < 51 || m1.getXPosition() > 1550)
+		{
+			hitM1RightOrLeftWall = true;
+			hitM1BottomOrTopWall = false;
+			//reversedM1 = false;
+		}
+		if (m2.getYPosition() < 61 || m2.getYPosition() > 840)
+		{
+			hitM2RightOrLeftWall = false;
+			hitM2BottomOrTopWall = true;
+			reversedM2 = false;
+		}
+		if (m2.getXPosition() < 51 || m2.getXPosition() > 1550)
+		{
+			hitM2RightOrLeftWall = true;
+			hitM2BottomOrTopWall = false;
+			reversedM2 = false;
+		}
+		if (m3.getYPosition() < 61 || m3.getYPosition() > 840)
+		{
+			hitM1RightOrLeftWall = false;
+			hitM1BottomOrTopWall = true;
+			reversedM3 = false;
+		}
+		if (m3.getXPosition() < 51 || m3.getXPosition() > 1550)
+		{
+			hitM3RightOrLeftWall = true;
+			hitM3BottomOrTopWall = false;
+			reversedM3 = false;
+		}
+		
+		
+		if (hitWallM1 == true && hitM1BottomOrTopWall == true)
+		{
+			if (reversedM1 == false)
+			{
+				System.out.print("Running!");
+				rebM1[1] = -rebM1[1];
+				b.move(rebM1[0], rebM1[1]);
+				reversedM1 = true;
+			}
+			else 
+			{
+				b.move(rebM1[0], rebM1[1]);
+			}
+		}
+		if (hitWallM1 == true && hitM1RightOrLeftWall == true)
+		{
+			if (reversedM1 == false)
+			{
+				rebM1[0] = -rebM1[0];
+				b.move(rebM1[0], rebM1[1]);
+				reversedM1 = true;
+			}
+			else 
+			{
+				b.move(rebM1[0], rebM1[1]);
+			}
+		}
+		if (hitWallM2 == true && hitM2BottomOrTopWall == true)
+		{
+			if (reversedM2 == false)
+			{
+				rebM2[1] = -rebM2[1];
+				b.move(rebM2[0], rebM2[1]);
+				reversedM2 = true;
+			}
+			else 
+			{
+				b.move(rebM2[0], rebM2[1]);
+			}
+		}
+		if (hitWallM2 == true && hitM2RightOrLeftWall == true)
+		{
+			if (reversedM2 == false)
+			{
+				rebM2[0] = -rebM2[0];
+				b.move(rebM2[0], rebM2[1]);
+				reversedM2 = true;
+			}
+			else 
+			{
+				b.move(rebM2[0], rebM2[1]);
+			}
+		}
+		if (hitWallM3 == true && hitM3BottomOrTopWall == true)
+		{
+			if (reversedM3 == false)
+			{
+				rebM3[1] = -rebM3[1];
+				b.move(rebM3[0], rebM3[1]);
+				reversedM3 = true;
+			}
+			else 
+			{
+				b.move(rebM3[0], rebM3[1]);
+			}
+		}
+		if (hitWallM3 == true && hitM3RightOrLeftWall == true)
+		{
+			if (reversedM3 == false)
+			{
+				rebM1[0] = -rebM1[0];
+				b.move(rebM3[0], rebM3[1]);
+				reversedM3 = true;
+			}
+			else 
+			{
+				b.move(rebM3[0], rebM3[1]);
+			}
+		}
+		*/
+		
+		if (b != null && m1 != null && m2 != null && m3 != null)
+		{
+			
+			if (b.collidesM(m1))
+			{
+				hitMagnet = false;
+				hitMagnet1 = true;
+				hitWallM1 = false;
+				
+			}
+			if (b.collidesM(m2))
+			{
+				hitMagnet = false;
+				hitMagnet2 = true;
+				hitWallM2 = false;
+			}
+			if (b.collidesM(m3))
+			{
+				hitMagnet = false;
+				hitMagnet3 = true;
+				hitWallM3 = false;
+			}
+			if (lastHit == 1)
+			{
+				if (hitMagnet1 == true)
+				{
+					if (hitMagnet == false)
+					{
+						rebM1 = Rebound.getVelocity(0, reb1[2], 0, reb1[3], m1.getXPosition(), b.getXPosition(), m1.getYPosition(), b.getYPosition());
+						hitMagnet = true;
+						reb1[2] = rebM1[2];
+						reb1[3] = rebM1[3];
+						m1.move(rebM1[0], rebM1[1]);
+						b.move(reb1[2], reb1[3]);
+					}
+				}
+				if (hitMagnet2 == true)
+				{
+					if (hitMagnet == false)
+					{
+						rebM2 = Rebound.getVelocity(0, reb1[2], 0, reb1[3], m1.getXPosition(), b.getXPosition(), m1.getYPosition(), b.getYPosition());
+						hitMagnet = true;
+						reb1[2] = rebM2[2];
+						reb1[3] = rebM2[3];
+						m2.move(rebM2[0], rebM2[1]);
+						b.move(reb1[2], reb1[3]);
+					}
+				}
+				if (hitMagnet3 == true)
+				{
+					if (hitMagnet == false)
+					{
+						rebM3 = Rebound.getVelocity(0, reb1[2], 0, reb1[3], m1.getXPosition(), b.getXPosition(), m1.getYPosition(), b.getYPosition());
+						hitMagnet = true;
+						reb1[2] = rebM3[2];
+						reb1[3] = rebM3[3];
+						m3.move(rebM3[0], rebM3[1]);
+						b.move(reb1[2], reb1[3]);
+					}
+				}
+				if (hitMagnet == true && hitMagnet1 == true)
+				{
+					m1.move(rebM1[0], rebM1[1]);
+					b.move(reb1[2], reb1[3]);
+				}
+				if (hitMagnet == true && hitMagnet2 == true)
+				{
+					m2.move(rebM2[0], rebM2[1]);
+					b.move(reb1[2], reb1[3]);
+				}
+				if (hitMagnet == true && hitMagnet3 == true)
+				{
+					m3.move(rebM3[0], rebM3[1]);
+					b.move(reb1[2], reb1[3]);
+				}
+			}
+			if (lastHit == 2)
+			{
+				if (hitMagnet1 == true)
+				{
+					if (hitMagnet == false)
+					{
+						rebM1 = Rebound.getVelocity(0, reb2[2], 0, reb2[3], m1.getXPosition(), b.getXPosition(), m1.getYPosition(), b.getYPosition());
+						hitMagnet = true;
+						reb2[2] = rebM1[2];
+						reb2[3] = rebM1[3];
+						m2.move(rebM1[0], rebM1[1]);
+						b.move(reb2[2], reb2[3]);
+					}
+				}
+				if (hitMagnet2 == true)
+				{
+					if (hitMagnet == false)
+					{
+						rebM2 = Rebound.getVelocity(0, reb2[2], 0, reb2[3], m1.getXPosition(), b.getXPosition(), m1.getYPosition(), b.getYPosition());
+						hitMagnet = true;
+						reb2[2] = rebM2[2];
+						reb2[3] = rebM2[3];
+						m2.move(rebM2[0], rebM2[1]);
+						b.move(reb2[2], reb2[3]);
+					}
+				}
+				if (hitMagnet3 == true)
+				{
+					if (hitMagnet == false)
+					{
+						rebM3 = Rebound.getVelocity(0, reb2[2], 0, reb2[3], m1.getXPosition(), b.getXPosition(), m1.getYPosition(), b.getYPosition());
+						hitMagnet = true;
+						reb2[2] = rebM3[2];
+						reb2[3] = rebM3[3];
+						m3.move(rebM3[0], rebM3[1]);
+						b.move(reb2[2], reb2[3]);
+					}
+				}
+				if (hitMagnet == true && hitMagnet1 == true)
+				{
+					m1.move(rebM1[0], rebM1[1]);
+					b.move(reb2[2], reb2[3]);
+				}
+				if (hitMagnet == true && hitMagnet2 == true)
+				{
+					m2.move(rebM2[0], rebM2[1]);
+					b.move(reb2[2], reb2[3]);
+				}
+				if (hitMagnet == true && hitMagnet3 == true)
+				{
+					m3.move(rebM3[0], rebM3[1]);
+					b.move(reb2[2], reb2[3]);
+				}
+			}
+		}
+	}
+	/**
+	 * Handles ball collisions and friction.
+	 */
+	public void ball()
+	{
+		b = KlaskGame.b;
 		ballFriction = 0.05;
+		
+		System.out.print("\nHit Magnet Bool: " + hitMagnet + "\n");
 		
 		if (reb1 != null)
 		{
@@ -1061,20 +1382,17 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		}
 		if (b.getYPosition() < 61 || b.getYPosition() > 840)
 		{
-			hitRightWall = false;
-			hitLeftWall = false;
-			hitBottomWall = true;
-			hitTopWall = true;
+			hitRightOrLeftWall = false;
+			hitBottomOrTopWall = true;
 			reversed = false;
 		}
 		if (b.getXPosition() < 51 || b.getXPosition() > 1550)
 		{
-			hitBottomWall = false;
-			hitTopWall = false;
-			hitRightWall = true;
-			hitLeftWall = true;
+			hitBottomOrTopWall = false;
+			hitRightOrLeftWall = true;
 			reversed = false;
 		}
+		
 		if (hitPlayer1 == true)
 		{
 			b.move(reb1[2], reb1[3]);
@@ -1083,7 +1401,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		{
 			b.move(reb2[2], reb2[3]);
 		}
-		if (hitWall == true && lastHit == 1 && (hitBottomWall == true || hitTopWall == true))
+		if (hitWall == true && lastHit == 1 && hitBottomOrTopWall == true)
 		{
 			if (reversed == false)
 			{
@@ -1096,7 +1414,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 				b.move(reb1[2], reb1[3]);
 			}
 		}
-		if (hitWall == true && lastHit == 2 && (hitBottomWall == true || hitTopWall == true))
+		if (hitWall == true && lastHit == 2 && hitBottomOrTopWall == true)
 		{
 			if (reversed == false)
 			{
@@ -1109,7 +1427,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 				b.move(reb2[2], reb2[3]);
 			}
 		}
-		if (hitWall == true && lastHit == 1 && (hitRightWall == true || hitLeftWall == true))
+		if (hitWall == true && lastHit == 1 && hitRightOrLeftWall == true)
 		{
 			if (reversed == false)
 			{
@@ -1122,7 +1440,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 				b.move(reb1[2], reb1[3]);
 			}
 		}
-		if (hitWall == true && lastHit == 2 && (hitRightWall == true || hitLeftWall == true))
+		if (hitWall == true && lastHit == 2 && hitRightOrLeftWall == true)
 		{
 			if (reversed == false)
 			{
@@ -1135,5 +1453,14 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 				b.move(reb2[2], reb2[3]);
 			}
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		
+		ball();
+		magnets();
+		
 	}
 }

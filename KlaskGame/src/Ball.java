@@ -15,7 +15,7 @@ public class Ball
 	private double size;				// The diameter of this Ball
 	private int layer;					// The layer of this ball is on.
 	private String colour;				// The colour of this Ball
-
+	
 										// Permissable colours are:
 										// BLACK, BLUE, CYAN, DARKGREY, GREY,
 										// GREEN, LIGHTGREY, MAGENTA, ORANGE,
@@ -172,18 +172,23 @@ public class Ball
 	}
 	
 	/**
-	 * Determines if this Ball is overlapping the given rectangle.
+	 * Determines if this Ball is overlapping the given Magnet.
 	 * 
-	 * @param r the rectangle to test for collision
-	 * @return true of this ball is overlapping the rectangle r, false otherwise.
+	 * @param m the Magnet to test for collision
+	 * @return true of this ball is overlapping the Magnet m, false otherwise.
 	 */
-	public boolean collidesR(Rectangle r)
+	public boolean collidesM(Magnets m)
 	{
-		double dx = r.getXPosition() - xPosition;
-		double dy = r.getYPosition() - yPosition;
-		double distance = Math.sqrt(dx*dx+dy*dy);
+		double distance = 0;
+		
+		if (m != null)
+		{
+			double dx = m.getXPosition() - xPosition;
+			double dy = m.getYPosition() - yPosition;
+			distance = Math.sqrt(dx*dx+dy*dy);
+		}
 
-		return distance < size/2 + r.getWidth()/2;
+		return distance < size/2 + m.getSize()/2;
 	}
 	
 	/**

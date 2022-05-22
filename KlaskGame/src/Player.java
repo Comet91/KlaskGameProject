@@ -262,6 +262,12 @@ public class Player
 		return distance < size/2 + p.size/2;
 	}
 
+	/**
+	 * Determines if this Player is overlapping the given Ball.
+	 * 
+	 * @param b the Ball to test for collision
+	 * @return true of this Player is overlapping the Ball b, false otherwise.
+	 */
 	public boolean collidesB(Ball b) 
 	{
 		double distance = 0;
