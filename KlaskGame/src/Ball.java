@@ -205,4 +205,19 @@ public class Ball
 
 		return distance < size/2 + p.getSize()/2;
 	}
+	
+	/**
+	 * Determines if this Ball is overlapping the given Goal.
+	 * 
+	 * @param g the Goal to test for collision
+	 * @return true of this ball is overlapping the Goal g, false otherwise.
+	 */
+	public boolean collidesG(Goal g)
+	{
+		double dx = g.getXPosition() - xPosition;
+		double dy = g.getYPosition() - yPosition;
+		double distance = Math.sqrt(dx*dx+dy*dy);
+
+		return distance < size/2 + g.getSize()/2;
+	}
 }

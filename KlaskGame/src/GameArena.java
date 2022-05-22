@@ -54,6 +54,8 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private Magnets m1;
 	private Magnets m2;
 	private Magnets m3;
+	private Goal g;
+	private Goal g2;
 	public static double[] reb1;
 	public static double[] reb2;
 	public static double[] rebM1;
@@ -85,6 +87,8 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	private double ballFriction;
 	private double magnetFriction;
 	private int lastHit = 0;
+	private int player1score;
+	private int player2score;
 	private Timer timer = new Timer(100 , this);
 	
     //Timer tm = new Timer(100, this);
@@ -643,7 +647,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player1.move(0, 21);
 			}
 			
 			if (b == null)
@@ -669,7 +673,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player1.move(-21, 0);
 			}
 			
 			if (b == null)
@@ -695,7 +699,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player1.move(0, -21);
 			}
 			
 			if (b == null)
@@ -746,7 +750,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player2.move(0, 21);
 			}
 			
 			if (b == null)
@@ -772,7 +776,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player2.move(-21, 0);
 			}
 			
 			if (b == null)
@@ -798,7 +802,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player2.move(0, -21);
 			}
 			
 			if (b == null)
@@ -824,7 +828,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			else 
 			{
 				System.out.print("Out of bounds.");
-				player1.move(21, 0);
+				player2.move(21, 0);
 			}
 			
 			if (b == null)
@@ -1393,6 +1397,30 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			reversed = false;
 		}
 		
+		if (player1 != null && b != null && player1.collidesB(b))
+		{
+			if (hitPlayer1 == false)
+			{
+				hitPlayer1 = true;
+				reb1 = Rebound.getVelocity(20, 0, 20, 0, player1.getXPosition(), b.getXPosition(), player1.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = true;
+				hitPlayer2 = false;
+				lastHit = 1;
+			}
+		}
+		if (player2 != null && b != null && player2.collidesB(b))
+		{
+			if (hitPlayer2 == false)
+			{
+				hitPlayer2 = true;
+				reb2 = Rebound.getVelocity(20, 0, 20, 0, player2.getXPosition(), b.getXPosition(), player2.getYPosition(), b.getYPosition());
+				hitWall = false;
+				hitPlayer1 = true;
+				hitPlayer2 = false;
+				lastHit = 1;
+			}
+		}
 		if (hitPlayer1 == true)
 		{
 			b.move(reb1[2], reb1[3]);
@@ -1454,6 +1482,126 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			}
 		}
 	}
+	
+	/**
+	 * Handles when the ball enters either goal, adding to the scores and resetting pieces.
+	 */
+	public void playerScores()
+	{
+		g = KlaskGame.goal1;
+		g2 = KlaskGame.goal2;
+		
+		if (b.collidesG(g))
+		{
+			player1score++;
+			String s = String.valueOf(player1score);		
+			KlaskGame.player1score.setText(s);
+			timer.stop();
+			
+			Random ran = new Random();
+			int start = ran.nextInt(1) + 0;
+			
+			if (start == 1)
+			{
+				b.setXPosition(1511);
+				b.setYPosition(100);
+				m1.setXPosition(795);
+				m1.setYPosition(451);
+				m2.setXPosition(795);
+				m2.setYPosition(219);
+				m3.setXPosition(795);
+				m3.setYPosition(684);
+				if (reb1 != null)
+				{
+					reb1[2] = 0;
+					reb2[3] = 0;
+				}
+				if (reb2 != null)
+				{
+					reb1[2] = 0;
+					reb2[3] = 0;
+				}
+				timer.start();
+			}
+			else if (start == 0)
+			{
+				b.setXPosition(1516);
+				b.setYPosition(804);
+				m1.setXPosition(795);
+				m1.setYPosition(451);
+				m2.setXPosition(795);
+				m2.setYPosition(219);
+				m3.setXPosition(795);
+				m3.setYPosition(684);
+				if (reb1 != null)
+				{
+					reb1[2] = 0;
+					reb1[3] = 0;
+				}
+				if (reb2 != null)
+				{
+					reb2[2] = 0;
+					reb2[3] = 0;
+				}
+				timer.start();
+			}
+		}
+		if (b.collidesG(g2))
+		{
+			player2score++;
+			String s = String.valueOf(player2score);		
+			KlaskGame.player1score.setText(s);
+			timer.stop();
+			
+			Random ran = new Random();
+			int start = ran.nextInt(1) + 0;
+			
+			if (start == 1)
+			{
+				b.setXPosition(89);
+				b.setYPosition(103);
+				m1.setXPosition(795);
+				m1.setYPosition(451);
+				m2.setXPosition(795);
+				m2.setYPosition(219);
+				m3.setXPosition(795);
+				m3.setYPosition(684);
+				if (reb1 != null)
+				{
+					reb1[2] = 0;
+					reb1[3] = 0;
+				}
+				if (reb2 != null)
+				{
+					reb2[2] = 0;
+					reb2[3] = 0;
+				}
+				timer.start();
+			}
+			else if (start == 0)
+			{
+				b.setXPosition(91);
+				b.setYPosition(805);
+				m1.setXPosition(795);
+				m1.setYPosition(451);
+				m2.setXPosition(795);
+				m2.setYPosition(219);
+				m3.setXPosition(795);
+				m3.setYPosition(684);
+				if (reb1 != null)
+				{
+					reb1[2] = 0;
+					reb1[3] = 0;
+				}
+				if (reb2 != null)
+				{
+					reb2[2] = 0;
+					reb2[3] = 0;
+				}
+				timer.start();
+			}
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
@@ -1461,6 +1609,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 		
 		ball();
 		magnets();
+		playerScores();
 		
 	}
 }
