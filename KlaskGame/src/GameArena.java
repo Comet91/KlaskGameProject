@@ -1378,19 +1378,19 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 			System.out.print("\n[2] X: " + reb2[2] + " | y " + reb2[3] + "\n");
 		}
 		
-		if (b.getYPosition() < 61 || b.getYPosition() > 840 || b.getXPosition() < 51 || b.getXPosition() > 1550 )
+		if (b.getYPosition() < 73 || b.getYPosition() > 830 || b.getXPosition() < 63 || b.getXPosition() > 1537 )
 		{
 			hitPlayer1 = false;
 			hitPlayer2 = false;
 			hitWall = true;
 		}
-		if (b.getYPosition() < 61 || b.getYPosition() > 840)
+		if (b.getYPosition() < 73 || b.getYPosition() > 832)
 		{
 			hitRightOrLeftWall = false;
 			hitBottomOrTopWall = true;
 			reversed = false;
 		}
-		if (b.getXPosition() < 51 || b.getXPosition() > 1550)
+		if (b.getXPosition() < 63 || b.getXPosition() > 1537)
 		{
 			hitBottomOrTopWall = false;
 			hitRightOrLeftWall = true;
