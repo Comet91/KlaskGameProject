@@ -1,6 +1,19 @@
 
 public class Rebound {
 
+	/**
+	 * Takes the current velocity and position of both objects and calculates their new velocity upon collision.
+	 * @param the x speed of the first object.
+	 * @param the x speed of the second object.
+	 * @param the y speed of the first object.
+	 * @param the y speed of the second object.
+	 * @param the x position of the first object.
+	 * @param the x position of the second object.
+	 * @param the y position of the second object.
+	 * @param the y position of the second object.
+	 * @return the x and y velococities of both objects.
+	 */
+	
 	public static double[] getVelocity(double xSpeed1, double xSpeed2, double ySpeed1, double ySpeed2, double xPosition1, double xPosition2, double yPosition1, double yPosition2)
 	 {
 		
